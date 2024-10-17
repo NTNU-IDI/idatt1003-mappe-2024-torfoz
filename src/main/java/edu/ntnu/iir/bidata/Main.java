@@ -1,4 +1,4 @@
-package src.main.java.edu.ntnu.iir.bidata;
+package edu.ntnu.iir.bidata;
 
 public class Main {
 }
