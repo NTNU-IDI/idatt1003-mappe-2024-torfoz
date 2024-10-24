@@ -7,6 +7,9 @@ import java.util.Scanner;
 public class test {
 
   public static void main(String[] args) {
+
+    // Grensesnitt for å legge til, endre eller fjerne ingredienser
+
     while (true) {
       System.out.println("1. Legg til ingrediens");
       System.out.println("2. Avslutt");
@@ -25,6 +28,9 @@ public class test {
       }
     }
   }
+
+  // Metode for å legge til ingredienser
+  // Bruker while løkker med try og catch for å sjekke at input er gyldig
 
   public static void addIngredient() {
     Scanner sc = new Scanner(System.in);
@@ -56,7 +62,7 @@ public class test {
       }
     }
 
-    DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy"); // Dato til norsk standard
     LocalDate expiryDate;
     while (true) {
       System.out.print("Best før dato (dd-MM-yyyy): ");
@@ -68,7 +74,6 @@ public class test {
         System.out.println("Ugyldig datoformat");
       }
     }
-
 
     double price;
     while (true) {
