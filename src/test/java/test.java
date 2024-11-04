@@ -1,3 +1,4 @@
+import edu.ntnu.iir.bidata.Fridge;
 import edu.ntnu.iir.bidata.Ingredient;
 import edu.ntnu.iir.bidata.Unit;
 import java.time.LocalDate;
@@ -6,22 +7,36 @@ import java.util.Scanner;
 
 public class test {
 
+  /** Main method */
   public static void main(String[] args) {
+    Fridge fridge = new Fridge();
+    mainMenu(fridge);
+  }
 
-    // Grensesnitt for å legge til, endre eller fjerne ingredienser
-
+  /** Interface for adding, opening fridge or exiting program */
+  public static void mainMenu(Fridge fridge) {
+    fridge.addIngredient("Egg", 1, Unit.PIECE, LocalDate.of(2024, 12, 24), 5);
+    fridge.addIngredient("Egg", 1, Unit.PIECE, LocalDate.of(2023, 12, 24), 5);
+    fridge.addIngredient("Melk", 1, Unit.LITER, LocalDate.of(2022, 12, 24), 5);
+    fridge.addIngredient("Ost", 1, Unit.GRAM, LocalDate.of(2021, 12, 24), 5);
+    fridge.addIngredient("Smør", 1, Unit.GRAM, LocalDate.of(2020, 12, 24), 5);
     while (true) {
-      System.out.println("1. Legg til ingrediens");
-      System.out.println("2. Avslutt");
+      System.out.println("\n1. Legg til ingrediens");
+      System.out.println("2. Åpne kjøleskap");
+      System.out.println("3. Avslutt");
       System.out.print("Valg: ");
       Scanner sc = new Scanner(System.in);
       int choice = sc.nextInt();
       sc.nextLine();
       switch (choice) {
         case 1:
-          addIngredient();
+          addIngredient(fridge);
           break;
         case 2:
+          printIngredientsInFridge(fridge);
+          insideFridge(fridge);
+          break;
+        case 3:
           return;
         default:
           System.out.println("Ugyldig valg");
@@ -29,13 +44,41 @@ public class test {
     }
   }
 
-  // Metode for å legge til ingredienser
-  // Bruker while løkker med try og catch for å sjekke at input er gyldig
+  /** Interface for adding, removing or viewing ingredients in the fridge */
+  public static void insideFridge(Fridge fridge) {
+    while (true) {
+      System.out.println("\n1. Sett inn ingrediens");
+      System.out.println("2. Ta ut ingrediens");
+      System.out.println("3. Ta en titt");
+      System.out.println("3. Lukk kjøleskap");
+      System.out.print("Valg: ");
+      Scanner sc = new Scanner(System.in);
+      int choice = sc.nextInt();
+      sc.nextLine();
+      switch (choice) {
+        case 1:
+          addIngredient(fridge);
+          break;
+        case 2:
+          removeIngredientFromFridge(fridge);
+          break;
+        case 3:
+          printIngredientsInFridge(fridge);
+          break;
+        case 4:
+          mainMenu(fridge);
+          break;
+        default:
+          System.out.println("Ugyldig valg");
+      }
+    }
+  }
 
-  public static void addIngredient() {
+  /** Method for adding ingredients to the fridge */
+  public static void addIngredient(Fridge fridge) {
     Scanner sc = new Scanner(System.in);
-    System.out.print("Navn på vare: ");
-    String navn = sc.nextLine();
+    System.out.print("\nNavn på vare: ");
+    String name = sc.nextLine();
 
     double amount;
     while (true) {
@@ -87,14 +130,42 @@ public class test {
       }
     }
 
-    Ingredient ingredient = new Ingredient(navn, amount, unit, expiryDate, price);
-    printIngredient(ingredient);
+    fridge.addIngredient(name, amount, unit, expiryDate, price);
   }
 
   public static void printIngredient(Ingredient ingredient) {
-    System.out.println(ingredient.getName());
-    System.out.println(ingredient.getAmount() + " " + ingredient.getUnit());
-    System.out.println(ingredient.getExpiryDate());
-    System.out.println(ingredient.getPrice());
+    System.out.println(ingredient);
+  }
+
+  public static void printIngredientsInFridge(Fridge fridge) {
+    System.out.println("\n##############################");
+    System.out.println("# Ingredienser i kjøleskapet #");
+    System.out.println("##############################");
+    for (Ingredient ingredient : fridge.getIngredients()) {
+      printIngredient(ingredient);
+    }
+  }
+
+  public static void removeIngredientFromFridge(Fridge fridge) {
+    Scanner sc = new Scanner(System.in);
+    System.out.print("\nNavn på vare: ");
+    String name = sc.nextLine();
+    for (Ingredient ingredient : fridge.getIngredientsByName(name)) {
+      printIngredient(ingredient);
+    }
+    while (true) {
+      System.out.print("\nVelg nummeret på ingrediensen du vil fjerne: ");
+      int index = sc.nextInt() - 1;
+      sc.nextLine();
+
+      if (index >= 0 && index < fridge.getIngredientsByName(name).size()) {
+        Ingredient ingredientToRemove = fridge.getIngredientsByName(name).get(index);
+        fridge.getIngredients().remove(ingredientToRemove);
+        System.out.println(ingredientToRemove.getName() + " fjernet");
+        break;
+      } else {
+        System.out.println("Ugyldig valg");
+      }
+    }
   }
 }
