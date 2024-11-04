@@ -2,10 +2,11 @@ package edu.ntnu.iir.bidata;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Fridge {
-  private List<Ingredient> ingredients = new ArrayList<>();
+  private final List<Ingredient> ingredients = new ArrayList<>();
 
   public void addIngredient(
       String name, double amount, Unit unit, LocalDate expiryDate, double price) {
@@ -23,6 +24,7 @@ public class Fridge {
   }
 
   public List<Ingredient> getIngredients() {
+    ingredients.sort(Comparator.comparing(Ingredient::getName));
     return ingredients;
   }
 
