@@ -1,0 +1,51 @@
+@startuml
+
+package edu.ntnu.iir.bidata {
+  class Main {
+    +main(String[] args)
+    +mainMenu(Fridge fridge)
+    +insideFridge(Fridge fridge)
+  }
+
+  class Fridge {
+    -List<Ingredient> ingredients
+    +addIngredient(String name, double amount, Unit unit, LocalDate expiryDate, double price)
+    +addIngredientFromInput()
+    +getIngredientsInFridge(): List<Ingredient>
+    +getIngredientsInFridgeByName(String name): List<Ingredient>
+    +removeIngredientFromFridge(Fridge fridge)
+    +toString(): String
+  }
+
+  class Ingredient {
+    -int quantity
+    -String name
+    -double amount
+    -Unit unit
+    -LocalDate expiryDate
+    -double price
+    +Ingredient(int quantity, String name, double amount, Unit unit, LocalDate expiryDate, double price)
+    +getQuantity(): int
+    +setQuantity(int quantity)
+    +getName(): String
+    +getAmount(): double
+    +getUnit(): Unit
+    +getExpiryDate(): LocalDate
+    +getPrice(): double
+    +toString(): String
+  }
+
+  enum Unit {
+    GRAM
+    LITER
+    PIECE
+    +fromString(String unitString): Unit
+    +getSymbol(): String[]
+  }
+
+  Main --> Fridge
+  Fridge --> Ingredient
+  Ingredient --> Unit
+}
+
+@enduml
