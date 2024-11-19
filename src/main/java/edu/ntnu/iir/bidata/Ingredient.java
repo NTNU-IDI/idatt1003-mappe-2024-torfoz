@@ -48,9 +48,8 @@ public class Ingredient {
    *
    * @param quantity Quantity of the ingredient.
    */
-  public int setQuantity(int quantity) {
+  public void setQuantity(int quantity) {
     this.quantity = quantity;
-    return quantity;
   }
 
   /**
