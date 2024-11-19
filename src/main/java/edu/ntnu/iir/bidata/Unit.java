@@ -1,7 +1,8 @@
 package edu.ntnu.iir.bidata;
 
-// Enum for SI-enheter med aliaser
-
+/**
+ * Enum for the unit of an ingredient. Contains the symbol and the name of the unit.
+ */
 public enum Unit {
   GRAM("g", "gram"),
   LITER("l", "liter"),
@@ -9,21 +10,30 @@ public enum Unit {
 
   private final String[] symbol;
 
-  // Konstruktør for enhetene
-
+  /**
+   * Constructor for the Unit enum.
+   *
+   * @param symbol The symbol of the unit.
+   */
   Unit(String... symbol) {
     this.symbol = symbol;
   }
 
-  // Get metode for å hente ut enhetens symbol
-
+  /**
+   * Getter for the symbol of the unit.
+   *
+   * @return The symbol of the unit.
+   */
   public String[] getSymbol() {
     return symbol;
   }
 
-  /* Metode som sjekker om input er en gyldig enhet
-  Itererer gjennom alle enhetene og sammenligner input med enhetens symbol
-*/
+  /**
+   * Method for getting the Unit enum from a string.
+   *
+   * @param symbol The symbol of the unit.
+   * @return The Unit enum.
+   */
   public static Unit fromString(String symbol) {
     for (Unit unit : Unit.values()) {
       for (String s : unit.getSymbol()) {
