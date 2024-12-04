@@ -1,96 +1,53 @@
 package edu.ntnu.iir.bidata;
 
+import edu.ntnu.iir.bidata.utils.InputUtil;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Scanner;
-import java.time.format.DateTimeFormatter;
+import java.util.stream.Collectors;
 
+/**
+ * Class for the fridge. Acts as a register for all groceries in the fridge.
+ */
 public class Fridge {
-  private final List<Ingredient> ingredients = new ArrayList<>();
+
+  private final List<Grocery> groceries = new ArrayList<>();
 
   /**
    * Adds an ingredient to the fridge.
    *
-   * @param name Name of the ingredient.
-   * @param amount Amount of the ingredient.
-   * @param unit Unit of the ingredient.
+   * @param name       Name of the ingredient.
+   * @param amount     Amount of the ingredient.
+   * @param unit       Unit of the ingredient.
    * @param expiryDate Expiry date of the ingredient.
-   * @param price Price of the ingredient.
+   * @param price      Price of the ingredient.
    */
-  public void addIngredient(
+  public void addGrocery(
       String name, double amount, Unit unit, LocalDate expiryDate, double price) {
-    for (Ingredient ingredient : ingredients) {
-      if (ingredient.getName().equals(name)
-          && ingredient.getAmount() == amount
-          && ingredient.getUnit() == unit
-          && ingredient.getExpiryDate().equals(expiryDate)
-          && ingredient.getPrice() == price) {
-        ingredient.setQuantity(ingredient.getQuantity() + 1);
+    for (Grocery grocery : groceries) {
+      if (grocery.getName().equals(name)
+          && grocery.getAmount() == amount
+          && grocery.getUnit() == unit
+          && grocery.getExpiryDate().equals(expiryDate)
+          && grocery.getPrice() == price) {
+        grocery.setQuantity(grocery.getQuantity() + 1);
         return;
       }
     }
-    ingredients.add(new Ingredient(1, name, amount, unit, expiryDate, price));
+    groceries.add(new Grocery(1, name, amount, unit, expiryDate, price));
   }
 
-  /** Adds an ingredient to the fridge from user input. */
-  public void addIngredientFromInput() {
-    Scanner sc = new Scanner(System.in);
-    System.out.print("\nNavn på vare: ");
-    String name = sc.nextLine();
-
-    double amount;
-    while (true) {
-      System.out.print("Mengde av vare (gram, liter, stk..): ");
-      try {
-        amount = sc.nextDouble();
-        sc.nextLine();
-        break;
-      } catch (Exception e) {
-        System.out.println("Ugyldig mengde");
-        sc.nextLine();
-      }
-    }
-
-    Unit unit;
-    while (true) {
-      System.out.print("Enhet (g, l, stk): ");
-      String unitString = sc.nextLine();
-      try {
-        unit = Unit.fromString(unitString);
-        break;
-      } catch (IllegalArgumentException e) {
-        System.out.println("Ugyldig enhet: " + unitString);
-      }
-    }
-
-    DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy"); // Dato til norsk standard
-    LocalDate expiryDate;
-    while (true) {
-      System.out.print("Best før dato (dd-MM-yyyy): ");
-      String expiryDateString = sc.nextLine();
-      try {
-        expiryDate = LocalDate.parse(expiryDateString, format);
-        break;
-      } catch (Exception e) {
-        System.out.println("Ugyldig datoformat");
-      }
-    }
-
-    double price;
-    while (true) {
-      System.out.print("Pris på vare: ");
-      try {
-        price = sc.nextDouble();
-        sc.nextLine();
-        break;
-      } catch (Exception e) {
-        System.out.println("Ugyldig pris");
-      }
-    }
-
-    addIngredient(name, amount, unit, expiryDate, price);
+  /**
+   * Adds an ingredient to the fridge from user input.
+   */
+  public void addGroceryFromInput() {
+    String name = InputUtil.getString("Name of grocery: ");
+    double amount = InputUtil.getDouble("Amount of grocery: ");
+    Unit unit = InputUtil.getUnit();
+    LocalDate expiryDate = InputUtil.getDate();
+    double price = InputUtil.getDouble("Price of grocery: ");
+    addGrocery(name, amount, unit, expiryDate, price);
   }
 
   /**
@@ -98,9 +55,9 @@ public class Fridge {
    *
    * @return List of ingredients in the fridge.
    */
-  public List<Ingredient> getIngredientsInFridge() {
-    ingredients.sort(Comparator.comparing(Ingredient::getName));
-    return ingredients;
+  public List<Grocery> getGroceriesInFridge() {
+    groceries.sort(Comparator.comparing(Grocery::getName));
+    return groceries;
   }
 
   /**
@@ -109,49 +66,44 @@ public class Fridge {
    * @param name Name of the ingredient.
    * @return List of ingredients with the specified name.
    */
-  public List<Ingredient> getIngredientsInFridgeByName(String name) {
-    List<Ingredient> ingredientsByName = new ArrayList<>();
-    for (Ingredient ingredient : ingredients) {
-      if (ingredient.getName().equals(name)) {
-        ingredientsByName.add(ingredient);
-      }
-    }
-    return ingredientsByName;
+  public List<Grocery> getGroceriesInFridgeByName(String name) {
+    return groceries.stream()
+        .filter(grocery -> grocery.getName().equals(name))
+        .collect(Collectors.toList());
   }
 
   /**
    * Returns a string representation of the fridge.
+   *
    * @return String with all ingredients in fridge.
    */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("#######################");
-    sb.append("\n------ KJØLESKAP ------");
-    sb.append("\n#######################\n");
-    for (Ingredient ingredient : getIngredientsInFridge()) {
-      sb.append(ingredient.toString()).append("\n");
+    sb.append("_____________________________________________");
+    sb.append("\n|---------------- KJØLESKAP ----------------|\n");
+    for (Grocery grocery : getGroceriesInFridge()) {
+      sb.append(grocery.toString()).append("\n");
     }
     return sb.toString().trim();
   }
 
-  /** Removes an ingredient from the fridge. */
-  public void removeIngredientFromFridge() {
-    Scanner sc = new Scanner(System.in);
-    System.out.print("\nNavn på vare: ");
-    String name = sc.nextLine();
-    for (Ingredient ingredient : getIngredientsInFridgeByName(name)) {
-      System.out.println(ingredient.toString());
+  /**
+   * Removes an ingredient from the fridge.
+   */
+  public void removeGroceryFromFridge() {
+    String name = InputUtil.getString("Name of grocery to remove: ");
+    for (Grocery grocery : getGroceriesInFridgeByName(name)) {
+      System.out.println(grocery.toString());
     }
     while (true) {
-      System.out.print("\nVelg nummeret på ingrediensen du vil fjerne: ");
-      int index = sc.nextInt() - 1;
-      sc.nextLine();
+      int index = InputUtil.getInt("Index of grocery to remove: ");
+      index -= 1;
 
-      if (index >= 0 && index < getIngredientsInFridgeByName(name).size()) {
-        Ingredient ingredientToRemove = getIngredientsInFridgeByName(name).get(index);
-        getIngredientsInFridge().remove(ingredientToRemove);
-        System.out.println(ingredientToRemove.getName() + " fjernet");
+      if (index >= 0 && index < getGroceriesInFridgeByName(name).size()) {
+        Grocery groceryToRemove = getGroceriesInFridgeByName(name).get(index);
+        getGroceriesInFridge().remove(groceryToRemove);
+        System.out.println(groceryToRemove.getName() + " fjernet");
         break;
       } else {
         System.out.println("Ugyldig valg");
