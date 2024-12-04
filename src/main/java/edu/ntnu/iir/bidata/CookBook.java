@@ -29,12 +29,27 @@ public class CookBook {
     addRecipe(name, type, instructions, groceries);
   }
 
-  public void addRecipe(Recipe recipe) {
-    recipes.put(recipe.getName(), recipe);
+  /** Get a recipe by name.
+   * @return Recipe with the given name.
+   */
+  public Recipe getRecipeByName() {
+    String name = InputUtil.getString("Name of recipe: ");
+    for (Recipe recipe : recipes) {
+      if (recipe.getName().equals(name)) {
+        return recipe;
+      }
+    }
+    return null;
   }
 
-  public void removeRecipe(String name) {
-    recipes.remove(name);
+  /** Remove a recipe from the cookbook by name. */
+  public void removeRecipe() {
+    Recipe recipe = getRecipeByName();
+    if (recipe == null) {
+      System.out.println("Recipe not found");
+      return;
+    }
+    recipes.remove(recipe);
   }
 
   public String toString() {
