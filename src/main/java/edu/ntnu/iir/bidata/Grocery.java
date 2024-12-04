@@ -114,8 +114,8 @@ public class Grocery {
   }
 
   /**
-   * Returns a string representation of the grocery. If the expiry date is after the current date,
-   * the expiry date will be red. If the expiry date is before the current date, the expiry date
+   * Returns a string representation of the grocery. If the expiry date is before the current date,
+   * the expiry date will be red. If the expiry date is after the current date, the expiry date
    * will be green.
    *
    * @return String representation of the grocery.
@@ -123,7 +123,7 @@ public class Grocery {
   public String toString() {
     DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     String formattedExpiryDate = expiryDate.format(format);
-    if (expiryDate.isAfter(LocalDate.now())) {
+    if (expiryDate.isBefore(LocalDate.now())) {
       return quantity
           + " | "
           + name
