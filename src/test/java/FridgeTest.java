@@ -1,7 +1,7 @@
 import edu.ntnu.iir.bidata.Fridge;
 import org.junit.Test;
 import java.time.LocalDate;
-import edu.ntnu.iir.bidata.Unit;
+import edu.ntnu.iir.bidata.enums.Unit;
 import static org.junit.Assert.assertEquals;
 
 public class FridgeTest {
