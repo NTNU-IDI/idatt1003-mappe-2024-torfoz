@@ -1,123 +1,111 @@
 package edu.ntnu.iir.bidata.ui;
 
+import edu.ntnu.iir.bidata.CookBook;
 import edu.ntnu.iir.bidata.Fridge;
-import edu.ntnu.iir.bidata.Unit;
+import edu.ntnu.iir.bidata.enums.RecipeType;
+import edu.ntnu.iir.bidata.enums.Unit;
+import edu.ntnu.iir.bidata.utils.InputUtil;
 import java.time.LocalDate;
-import java.util.Scanner;
+import java.util.ArrayList;
 
-/**
- * User interface for the program.
- */
+/** User interface for the program. */
 public class UserInterface {
 
-  /**
-   * Main method.
-   */
+  /** Main method. */
   public static void main(String[] args) {
     mainMenu();
   }
 
-  /**
-   * Interface for adding, opening fridge or exiting program.
-   */
+  /** Interface for adding, opening fridge or exiting program. */
   public static void mainMenu() {
     while (true) {
-      System.out.println("\n1. Åpne kjøleskap");
-      System.out.println("2. Åpne kokebok");
-      System.out.println("3. Avslutt");
-      System.out.print("Valg: ");
-      Scanner sc = new Scanner(System.in);
-      int choice = sc.nextInt();
-      sc.nextLine();
+      int choice = InputUtil.getInt("\n1. Open fridge\n2. Open cookbook\n3. Exit\nChoice: ");
       switch (choice) {
         case 1:
           insideFridge();
           break;
         case 2:
-          //insideCookBook();
+          insideCookBook();
           break;
         case 3:
           System.exit(0);
           return;
         default:
-          System.out.println("Ugyldig valg");
+          System.out.println("Invalid choice");
       }
     }
   }
 
-  /**
-   * Interface for adding, removing or viewing grocery in the fridge.
-   */
+  /** Interface for adding, removing or viewing grocery in the fridge. */
   public static void insideFridge() {
     Fridge fridge = new Fridge();
     fridge.addGrocery("Egg", 1, Unit.PIECE, LocalDate.of(2024, 12, 24), 5);
     fridge.addGrocery("Egg", 1, Unit.PIECE, LocalDate.of(2023, 12, 24), 5);
-    fridge.addGrocery("Melk", 1, Unit.LITER, LocalDate.of(2022, 12, 24), 5);
-    fridge.addGrocery("Ost", 1, Unit.GRAM, LocalDate.of(2021, 12, 24), 5);
-    fridge.addGrocery("Smør", 1, Unit.GRAM, LocalDate.of(2020, 12, 24), 5);
-    System.out.println(fridge.toString());
+    fridge.addGrocery("Milk", 1, Unit.LITER, LocalDate.of(2022, 12, 24), 5);
+    fridge.addGrocery("Cheese", 1, Unit.GRAM, LocalDate.of(2021, 12, 24), 5);
+    fridge.addGrocery("Butter", 1, Unit.GRAM, LocalDate.of(2020, 12, 24), 5);
+    System.out.print(fridge.header());
+    System.out.println(fridge.printGroceries());
     while (true) {
-      System.out.println("\n1. Sett inn ingrediens");
-      System.out.println("2. Ta ut ingrediens");
-      System.out.println("3. Ta en titt");
-      System.out.println("3. Lukk kjøleskap");
-      System.out.print("Valg: ");
-      Scanner sc = new Scanner(System.in);
-      int choice = sc.nextInt();
-      sc.nextLine();
+      int choice =
+          InputUtil.getInt(
+              "\n1. View fridge\n2. Add grocery\n3. Remove grocery\n4. Close fridge\nChoice: ");
       switch (choice) {
         case 1:
-          fridge.addGroceryFromInput();
+          System.out.print(fridge.header());
+          System.out.println(fridge.printGroceries());
           break;
         case 2:
-          fridge.removeGroceryFromFridge();
+          fridge.addGroceryFromInput();
           break;
         case 3:
-          System.out.println(fridge);
+          fridge.removeGroceryFromFridge();
           break;
         case 4:
           mainMenu();
           break;
         default:
-          System.out.println("Ugyldig valg");
+          System.out.println("Invalid choice");
       }
     }
   }
-}
 
-  /**
-   * Interface for adding, removing or viewing recipes in the cookbook.
+  /** Interface for adding, removing or viewing recipes in the cookbook. */
   public static void insideCookBook() {
     CookBook cookBook = new CookBook();
-    Ingredient egg = new Ingredient("Egg", 2, Unit.PIECE);
-    omelett.addIngredient(egg);
-    cookBook.addRecipe();
+    cookBook.addRecipe("Kjøttkaker", RecipeType.DINNER, "Stek kjøttkaker", new ArrayList<>());
+    cookBook.addRecipe("Kake", RecipeType.DESSERT, "Lag kake", new ArrayList<>());
+    cookBook.addRecipe("Salat", RecipeType.LUNCH, "Lag salat", new ArrayList<>());
+    cookBook.addRecipe("Suppe", RecipeType.STARTER, "Lag suppe", new ArrayList<>());
+    cookBook.addRecipe(
+        "Bananpannekaker", RecipeType.BREAKFAST, "Stek pannekaker", new ArrayList<>());
+    cookBook.addRecipe("Pannekaker", RecipeType.BREAKFAST, "Stek pannekaker", new ArrayList<>());
+    System.out.print(cookBook.header());
+    System.out.print(cookBook.recipesNumbered());
     while (true) {
-      System.out.println("\n1. Legg til oppskrift");
-      System.out.println("2. Fjern oppskrift");
-      System.out.println("3. Se oppskrifter");
-      System.out.println("4. Lukk kokebok");
-      System.out.print("Valg: ");
-      Scanner sc = new Scanner(System.in);
-      int choice = sc.nextInt();
-      sc.nextLine();
+      int choice =
+          InputUtil.getInt(
+              "\n1. Print out recipes\n2. View recipe\n3. Add recipe\n4. Remove recipe\n5. Close cookbook\nChoice: ");
       switch (choice) {
         case 1:
-          cookBook.addRecipeFromInput();
+          System.out.print(cookBook.header());
+          System.out.println(cookBook.recipesNumbered());
           break;
         case 2:
-          cookBook.removeRecipeFromCookBook();
+          System.out.println(cookBook.printRecipe());
           break;
         case 3:
-          System.out.println(cookBook.toString());
+          cookBook.addRecipeFromInput();
           break;
         case 4:
-          mainMenu(fridge);
+          cookBook.removeRecipe();
+          break;
+        case 5:
+          mainMenu();
           break;
         default:
-          System.out.println("Ugyldig valg");
+          System.out.println("Invalid choice");
       }
     }
   }
 }
-   */
