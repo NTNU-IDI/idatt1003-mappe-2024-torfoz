@@ -6,7 +6,7 @@ package edu.ntnu.iir.bidata;
 public enum Unit {
   GRAM("g", "gram"),
   LITER("l", "liter"),
-  PIECE("stk", "stykker");
+  PIECE("pcs", "piece"),;
 
   private final String[] symbol;
 
@@ -42,6 +42,6 @@ public enum Unit {
         }
       }
     }
-    throw new IllegalArgumentException("Ugyldig enhet: " + symbol);
+    throw new IllegalArgumentException("Invalid unit: " + symbol);
   }
 }
