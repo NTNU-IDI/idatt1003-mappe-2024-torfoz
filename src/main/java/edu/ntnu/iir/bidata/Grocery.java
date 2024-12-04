@@ -1,10 +1,12 @@
 package edu.ntnu.iir.bidata;
 
+import edu.ntnu.iir.bidata.enums.Unit;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
- * Class for Grocery. Contains name, amount, unit, expiry date and price. The class also
- * contains getters for the different fields.
+ * Class for Grocery. Contains name, amount, unit, expiry date and price. The class also contains
+ * getters for the different fields.
  */
 public class Grocery {
 
@@ -18,12 +20,12 @@ public class Grocery {
   /**
    * Constructor for the Grocery class.
    *
-   * @param quantity   Quantity of the grocery.
-   * @param name       Name of the grocery.
-   * @param amount     Amount of the grocery.
-   * @param unit       Unit of the grocery.
+   * @param quantity Quantity of the grocery.
+   * @param name Name of the grocery.
+   * @param amount Amount of the grocery.
+   * @param unit Unit of the grocery.
    * @param expiryDate Expiry date of the grocery.
-   * @param price      Price of the grocery.
+   * @param price Price of the grocery.
    */
   public Grocery(
       int quantity, String name, double amount, Unit unit, LocalDate expiryDate, double price) {
@@ -35,13 +37,12 @@ public class Grocery {
     this.price = price;
   }
 
-
   /**
    * Constructor for the Grocery class. Used when adding grocery to a recipe.
    *
-   * @param name   Name of the grocery.
+   * @param name Name of the grocery.
    * @param amount Amount of the grocery.
-   * @param unit   Unit of the grocery.
+   * @param unit Unit of the grocery.
    */
   public Grocery(String name, double amount, Unit unit) {
     this.name = name;
@@ -113,22 +114,45 @@ public class Grocery {
   }
 
   /**
-   * Returns a string representation of the grocery.
+   * Returns a string representation of the grocery. If the expiry date is after the current date,
+   * the expiry date will be red. If the expiry date is before the current date, the expiry date
+   * will be green.
    *
    * @return String representation of the grocery.
    */
   public String toString() {
-    return quantity
-        + " | "
-        + name
-        + " | "
-        + amount
-        + " "
-        + unit.getSymbol()[1]
-        + " | "
-        + expiryDate
-        + " | "
-        + price
-        + " kr";
+    DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    String formattedExpiryDate = expiryDate.format(format);
+    if (expiryDate.isAfter(LocalDate.now())) {
+      return quantity
+          + " | "
+          + name
+          + " | "
+          + amount
+          + " "
+          + unit.getSymbol()[1]
+          + " | "
+          + "\033[31m"
+          + formattedExpiryDate
+          + "\033[0m"
+          + " | "
+          + price
+          + " kr";
+    } else {
+      return quantity
+          + " | "
+          + name
+          + " | "
+          + amount
+          + " "
+          + unit.getSymbol()[1]
+          + " | "
+          + "\033[32m"
+          + formattedExpiryDate
+          + "\033[0m"
+          + " | "
+          + price
+          + " kr";
+    }
   }
 }
