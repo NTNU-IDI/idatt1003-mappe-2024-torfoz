@@ -1,5 +1,6 @@
 package edu.ntnu.iir.bidata;
 
+import edu.ntnu.iir.bidata.enums.Unit;
 import edu.ntnu.iir.bidata.utils.InputUtil;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -7,9 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Class for the fridge. Acts as a register for all groceries in the fridge.
- */
+/** Class for the fridge. Acts as a register for all groceries in the fridge. */
 public class Fridge {
 
   private final List<Grocery> groceries = new ArrayList<>();
@@ -17,11 +16,11 @@ public class Fridge {
   /**
    * Adds an ingredient to the fridge.
    *
-   * @param name       Name of the ingredient.
-   * @param amount     Amount of the ingredient.
-   * @param unit       Unit of the ingredient.
+   * @param name Name of the ingredient.
+   * @param amount Amount of the ingredient.
+   * @param unit Unit of the ingredient.
    * @param expiryDate Expiry date of the ingredient.
-   * @param price      Price of the ingredient.
+   * @param price Price of the ingredient.
    */
   public void addGrocery(
       String name, double amount, Unit unit, LocalDate expiryDate, double price) {
@@ -38,9 +37,7 @@ public class Fridge {
     groceries.add(new Grocery(1, name, amount, unit, expiryDate, price));
   }
 
-  /**
-   * Adds an ingredient to the fridge from user input.
-   */
+  /** Adds an ingredient to the fridge from user input. */
   public void addGroceryFromInput() {
     String name = InputUtil.getString("Name of grocery: ");
     double amount = InputUtil.getDouble("Amount of grocery: ");
@@ -73,27 +70,17 @@ public class Fridge {
   }
 
   /**
-   * Returns a string representation of the fridge.
-   *
-   * @return String with all ingredients in fridge.
-   */
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("_____________________________________________");
-    sb.append("\n|---------------- KJØLESKAP ----------------|\n");
-    for (Grocery grocery : getGroceriesInFridge()) {
-      sb.append(grocery.toString()).append("\n");
-    }
-    return sb.toString().trim();
-  }
-
-  /**
-   * Removes an ingredient from the fridge.
+   * Removes a grocery from the fridge. If there are multiple groceries with the same name, the user
+   * will be prompted to choose which one to remove.
    */
   public void removeGroceryFromFridge() {
     String name = InputUtil.getString("Name of grocery to remove: ");
-    for (Grocery grocery : getGroceriesInFridgeByName(name)) {
+    List<Grocery> groceriesByName = getGroceriesInFridgeByName(name);
+    if (groceriesByName.isEmpty()) {
+      System.out.println("No groceries found with the name: " + name);
+      return;
+    }
+    for (Grocery grocery : groceriesByName) {
       System.out.println(grocery.toString());
     }
     while (true) {
@@ -109,5 +96,27 @@ public class Fridge {
         System.out.println("Ugyldig valg");
       }
     }
+  }
+
+  /**
+   * Header for the fridge.
+   *
+   * @return String with the header for the fridge.
+   */
+  public String header() {
+    return "\n|------------------ FRIDGE ------------------|\n";
+  }
+
+  /**
+   * Prints out all groceries in the fridge.
+   *
+   * @return String with all groceries in the fridge.
+   */
+  public String printGroceries() {
+    StringBuilder sb = new StringBuilder();
+    for (Grocery grocery : getGroceriesInFridge()) {
+      sb.append(grocery.toString()).append("\n");
+    }
+    return sb.toString().trim();
   }
 }
