@@ -52,11 +52,37 @@ public class CookBook {
     recipes.remove(recipe);
   }
 
-  public String toString() {
+  /** Header for the cookbook. */
+  public String header() {
+    return "\n |---------------- CookBook ----------------|\n";
+  }
+
+  /** Prints out all recipes in the cookbook listed by type. */
+  public String recipesNumbered() {
     StringBuilder sb = new StringBuilder();
-    for (Recipe recipe : recipes.values()) {
-      sb.append(recipe.toString()).append("\n");
+    int i = 1;
+    for (RecipeType type : RecipeType.values()) {
+      sb.append("\n  ").append(type).append(":\n");
+      for (Recipe recipe : recipes) {
+        if (recipe.getType() != type) {
+          continue;
+        }
+        sb.append("  ").append(i)
+            .append(". ")
+            .append(recipe.getName())
+            .append("\n");
+        i++;
+      }
     }
     return sb.toString();
+  }
+
+  /** Prints out a recipe. */
+  public String printRecipe() {
+    Recipe recipe = getRecipeByName();
+    if (recipe == null) {
+      return "Recipe not found";
+    }
+    return recipe.printRecipe();
   }
 }
