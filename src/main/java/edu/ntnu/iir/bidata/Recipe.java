@@ -1,5 +1,7 @@
 package edu.ntnu.iir.bidata;
 
+import edu.ntnu.iir.bidata.enums.RecipeType;
+import edu.ntnu.iir.bidata.enums.Unit;
 import edu.ntnu.iir.bidata.utils.InputUtil;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -8,26 +10,29 @@ import java.util.List;
 public class Recipe {
 
   private final String name;
-  private final Type type;
-  private List<Grocery> groceries = new ArrayList<>();
+  private final RecipeType recipeType;
   private final String instructions;
+  private List<Grocery> groceries = new ArrayList<>();
 
-  public Recipe(String name, Type type, String instructions, List<Grocery> groceries) {
+  public Recipe(String name, RecipeType recipeType, String instructions, List<Grocery> groceries) {
     this.name = name;
-    this.type = type;
+    this.recipeType = recipeType;
     this.instructions = instructions;
-    this.groceries.addAll(groceries);
+    this.groceries = groceries;
   }
 
-  public void addIngredientToRecipe() {
-    String name = InputUtil.getString("Navn på ingrediens: ");
-    Double amount = InputUtil.getDouble("Mengde av ingrediens: ");
-    Unit unit = InputUtil.getUnit();
-    groceries.add(new Grocery(name, amount, unit));
-  }
-
-  public void addIngredient(String name, double amount, Unit unit) {
-    groceries.add(new Grocery(name, amount, unit));
+  public static List<Grocery> addGroceryToRecipe() {
+    List<Grocery> groceries = new ArrayList<>();
+    while (true) {
+      String groceryName = InputUtil.getString("Name of ingredient: ");
+      double groceryAmount = InputUtil.getDouble("Amount of ingredient: ");
+      Unit groceryUnit = InputUtil.getUnit();
+      groceries.add(new Grocery(groceryName, groceryAmount, groceryUnit));
+      if (!InputUtil.getBoolean("Add another grocery? (yes/no): ")) {
+        break;
+      }
+    }
+    return groceries;
   }
 
   public List<Grocery> getGroceries() {
@@ -44,8 +49,8 @@ public class Recipe {
     return name;
   }
 
-  public Type getType() {
-    return type;
+  public RecipeType getType() {
+    return recipeType;
   }
 
   public String getInstructions() {
@@ -56,14 +61,15 @@ public class Recipe {
     return instructions;
   }
 
-  public String toString() {
+  public String printRecipe() {
     StringBuilder sb = new StringBuilder();
-    sb.append("Navn: ").append(name).append("\n");
-    sb.append("Type: ").append(type).append("\n");
-    sb.append("Ingredienser: ").append("\n");
+    sb.append("\nName: ").append(name).append("\n");
+    sb.append("Type: ").append(recipeType).append("\n");
+    sb.append("Ingredients: ").append("\n");
     for (Grocery grocery : groceries) {
-      sb.append(grocery.getName()).append("\n");
+      sb.append(grocery.getName()).append(grocery.getUnit()).append("\n");
     }
+    sb.append("Instructions: ").append(instructions).append("\n");
     return sb.toString();
   }
 }
