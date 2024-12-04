@@ -1,4 +1,4 @@
-package edu.ntnu.iir.bidata;
+package edu.ntnu.iir.bidata.enums;
 
 /**
  * Enum for the unit of an ingredient. Contains the symbol and the name of the unit.
