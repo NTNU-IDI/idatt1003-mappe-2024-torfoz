@@ -1,4 +1,4 @@
-import edu.ntnu.iir.bidata.Fridge;
+import edu.ntnu.iir.bidata.models.Fridge;
 import org.junit.Test;
 import java.time.LocalDate;
 import edu.ntnu.iir.bidata.enums.Unit;

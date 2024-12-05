@@ -2,6 +2,9 @@ package edu.ntnu.iir.bidata.enums;
 
 /**
  * Enum for the unit of an ingredient. Contains the symbol and the name of the unit.
+ *
+ * @author Tord Fosse
+ * @version 1.0
  */
 public enum Unit {
   GRAM("g", "gram"),

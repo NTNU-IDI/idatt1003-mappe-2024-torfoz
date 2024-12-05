@@ -1,5 +1,5 @@
 import org.junit.Test;
-import edu.ntnu.iir.bidata.Grocery;
+import edu.ntnu.iir.bidata.models.Grocery;
 import edu.ntnu.iir.bidata.enums.Unit;
 import java.time.LocalDate;
 import static org.junit.Assert.assertEquals;

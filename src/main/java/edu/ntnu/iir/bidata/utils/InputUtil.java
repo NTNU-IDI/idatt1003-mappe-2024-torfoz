@@ -6,7 +6,16 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
+
+/**
+ * Utility class using the Scanner util. Takes input from the user such as strings, integers,
+ * doubles, units, dates, recipe types and booleans.
+ *
+ * @author Tord Fosse
+ * @version 1.0
+ */
 public class InputUtil {
+
   private static final Scanner scanner = new Scanner(System.in);
 
   /**
@@ -54,18 +63,28 @@ public class InputUtil {
     }
   }
 
+  /**
+   * Get a unit from the user.
+   *
+   * @return The unit entered by the user.
+   */
   public static Unit getUnit() {
     while (true) {
       System.out.print("Unit (g, l, stk): ");
       String unitString = scanner.nextLine();
       try {
         return Unit.fromString(unitString);
-    } catch (Exception e) {
+      } catch (Exception e) {
         System.out.println("Invalid unit. " + unitString + " Please enter a valid unit.");
       }
     }
   }
 
+  /**
+   * Get a date from the user with the format dd-MM-yyyy.
+   *
+   * @return The date entered by the user.
+   */
   public static LocalDate getDate() {
     while (true) {
       System.out.print("Expiry date (dd-MM-yyyy): ");
@@ -78,6 +97,11 @@ public class InputUtil {
     }
   }
 
+  /**
+   * Get a recipe type from the user.
+   *
+   * @return The recipe type entered by the user.
+   */
   public static RecipeType getRecipeType() {
     while (true) {
       System.out.print(
@@ -86,11 +110,18 @@ public class InputUtil {
       try {
         return RecipeType.valueOf(typeString);
       } catch (IllegalArgumentException e) {
-        System.out.println("Invalid recipe type: " + typeString + ". Please enter a valid recipe type.");
+        System.out.println(
+            "Invalid recipe type: " + typeString + ". Please enter a valid recipe type.");
       }
     }
   }
 
+  /**
+   * Get a boolean from the user. yes = true, no = false.
+   *
+   * @param prompt The prompt to display to the user.
+   * @return The boolean entered by the user.
+   */
   public static boolean getBoolean(String prompt) {
     while (true) {
       System.out.print(prompt);

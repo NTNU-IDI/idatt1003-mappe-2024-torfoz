@@ -1,26 +1,37 @@
-package edu.ntnu.iir.bidata;
+package edu.ntnu.iir.bidata.models;
 
 import edu.ntnu.iir.bidata.enums.RecipeType;
 import edu.ntnu.iir.bidata.utils.InputUtil;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
-/** Class for the cookbook. */
+/**
+ * Class for the cookbook.
+ *
+ * @author Tord Fosse
+ * @version 1.0
+ */
 public class CookBook {
+
   private List<Recipe> recipes = new ArrayList<>();
 
-  /** Adds a recipe to the cookbook.
-   * @param name Name of the recipe.
-   * @param type Type of the recipe.
+  /**
+   * Adds a recipe to the cookbook.
+   *
+   * @param name         Name of the recipe.
+   * @param type         Type of the recipe.
    * @param instructions Instructions for the recipe.
-   * @param groceries Ingredients for the recipe.
+   * @param groceries    Ingredients for the recipe.
    */
-  public void addRecipe(String name, RecipeType type, String instructions, List<Grocery> groceries) {
+  public void addRecipe(String name, RecipeType type, String instructions,
+      List<Grocery> groceries) {
     Recipe recipe = new Recipe(name, type, instructions, groceries);
     recipes.add(recipe);
   }
 
-  /** Adds a recipe to the cookbook from user input. */
+  /**
+   * Adds a recipe to the cookbook from user input.
+   */
   public void addRecipeFromInput() {
     String name = InputUtil.getString("Name of recipe: ");
     RecipeType type = InputUtil.getRecipeType();
@@ -29,7 +40,9 @@ public class CookBook {
     addRecipe(name, type, instructions, groceries);
   }
 
-  /** Get a recipe by name.
+  /**
+   * Get a recipe by name.
+   *
    * @return Recipe with the given name.
    */
   public Recipe getRecipeByName() {
@@ -42,7 +55,9 @@ public class CookBook {
     return null;
   }
 
-  /** Remove a recipe from the cookbook by name. */
+  /**
+   * Remove a recipe from the cookbook by name.
+   */
   public void removeRecipe() {
     Recipe recipe = getRecipeByName();
     if (recipe == null) {
@@ -52,12 +67,16 @@ public class CookBook {
     recipes.remove(recipe);
   }
 
-  /** Header for the cookbook. */
+  /**
+   * Header for the cookbook.
+   */
   public String header() {
     return "\n |---------------- CookBook ----------------|\n";
   }
 
-  /** Prints out all recipes in the cookbook listed by type. */
+  /**
+   * Prints out all recipes in the cookbook listed by type.
+   */
   public String recipesNumbered() {
     StringBuilder sb = new StringBuilder();
     int i = 1;
@@ -77,7 +96,9 @@ public class CookBook {
     return sb.toString();
   }
 
-  /** Prints out a recipe. */
+  /**
+   * Prints out a recipe.
+   */
   public String printRecipe() {
     Recipe recipe = getRecipeByName();
     if (recipe == null) {

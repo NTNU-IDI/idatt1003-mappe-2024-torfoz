@@ -1,4 +1,4 @@
-package edu.ntnu.iir.bidata;
+package edu.ntnu.iir.bidata.models;
 
 import edu.ntnu.iir.bidata.enums.Unit;
 import edu.ntnu.iir.bidata.utils.InputUtil;
@@ -8,7 +8,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/** Class for the fridge. Acts as a register for all groceries in the fridge. */
+/**
+ * Class for the fridge. Acts as a register for all groceries in the fridge.
+ *
+ * @author Tord Fosse
+ * @version 1.0
+ */
 public class Fridge {
 
   private final List<Grocery> groceries = new ArrayList<>();
@@ -16,11 +21,11 @@ public class Fridge {
   /**
    * Adds an ingredient to the fridge.
    *
-   * @param name Name of the ingredient.
-   * @param amount Amount of the ingredient.
-   * @param unit Unit of the ingredient.
+   * @param name       Name of the ingredient.
+   * @param amount     Amount of the ingredient.
+   * @param unit       Unit of the ingredient.
    * @param expiryDate Expiry date of the ingredient.
-   * @param price Price of the ingredient.
+   * @param price      Price of the ingredient.
    */
   public void addGrocery(
       String name, double amount, Unit unit, LocalDate expiryDate, double price) {
@@ -37,7 +42,9 @@ public class Fridge {
     groceries.add(new Grocery(1, name, amount, unit, expiryDate, price));
   }
 
-  /** Adds an ingredient to the fridge from user input. */
+  /**
+   * Adds an ingredient to the fridge from user input.
+   */
   public void addGroceryFromInput() {
     String name = InputUtil.getString("Name of grocery: ");
     double amount = InputUtil.getDouble("Amount of grocery: ");

@@ -1,12 +1,15 @@
-package edu.ntnu.iir.bidata;
+package edu.ntnu.iir.bidata.models;
 
 import edu.ntnu.iir.bidata.enums.Unit;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Class for Grocery. Contains name, amount, unit, expiry date and price. The class also contains
- * getters for the different fields.
+ * Class for Grocery. This class is used to define the groceries used in the Fridge and Recipes with
+ * paramaters such as: name, amount, unit, expiry date and price.
+ *
+ * @author Tord Fosse
+ * @version 1.0
  */
 public class Grocery {
 
@@ -20,12 +23,12 @@ public class Grocery {
   /**
    * Constructor for the Grocery class.
    *
-   * @param quantity Quantity of the grocery.
-   * @param name Name of the grocery.
-   * @param amount Amount of the grocery.
-   * @param unit Unit of the grocery.
+   * @param quantity   Quantity of the grocery.
+   * @param name       Name of the grocery.
+   * @param amount     Amount of the grocery.
+   * @param unit       Unit of the grocery.
    * @param expiryDate Expiry date of the grocery.
-   * @param price Price of the grocery.
+   * @param price      Price of the grocery.
    */
   public Grocery(
       int quantity, String name, double amount, Unit unit, LocalDate expiryDate, double price) {
@@ -40,9 +43,9 @@ public class Grocery {
   /**
    * Constructor for the Grocery class. Used when adding grocery to a recipe.
    *
-   * @param name Name of the grocery.
+   * @param name   Name of the grocery.
    * @param amount Amount of the grocery.
-   * @param unit Unit of the grocery.
+   * @param unit   Unit of the grocery.
    */
   public Grocery(String name, double amount, Unit unit) {
     this.name = name;
@@ -115,8 +118,8 @@ public class Grocery {
 
   /**
    * Returns a string representation of the grocery. If the expiry date is before the current date,
-   * the expiry date will be red. If the expiry date is after the current date, the expiry date
-   * will be green.
+   * the expiry date will be red. If the expiry date is after the current date, the expiry date will
+   * be green.
    *
    * @return String representation of the grocery.
    */

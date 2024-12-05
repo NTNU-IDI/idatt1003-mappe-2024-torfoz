@@ -1,22 +1,31 @@
 package edu.ntnu.iir.bidata.ui;
 
-import edu.ntnu.iir.bidata.CookBook;
-import edu.ntnu.iir.bidata.Fridge;
 import edu.ntnu.iir.bidata.enums.RecipeType;
 import edu.ntnu.iir.bidata.enums.Unit;
+import edu.ntnu.iir.bidata.models.CookBook;
+import edu.ntnu.iir.bidata.models.Fridge;
 import edu.ntnu.iir.bidata.utils.InputUtil;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-/** User interface for the program. */
+/**
+ * User interface for the program.
+ *
+ * @author Tord Fosse
+ * @version 1.0
+ */
 public class UserInterface {
 
-  /** Main method. */
+  /**
+   * Main method.
+   */
   public static void main(String[] args) {
     mainMenu();
   }
 
-  /** Interface for adding, opening fridge or exiting program. */
+  /**
+   * Interface for adding, opening fridge or exiting program.
+   */
   public static void mainMenu() {
     while (true) {
       int choice = InputUtil.getInt("\n1. Open fridge\n2. Open cookbook\n3. Exit\nChoice: ");
@@ -36,7 +45,9 @@ public class UserInterface {
     }
   }
 
-  /** Interface for adding, removing or viewing grocery in the fridge. */
+  /**
+   * Interface for adding, removing or viewing grocery in the fridge.
+   */
   public static void insideFridge() {
     Fridge fridge = new Fridge();
     fridge.addGrocery("Egg", 1, Unit.PIECE, LocalDate.of(2024, 12, 24), 5);
@@ -70,7 +81,9 @@ public class UserInterface {
     }
   }
 
-  /** Interface for adding, removing or viewing recipes in the cookbook. */
+  /**
+   * Interface for adding, removing or viewing recipes in the cookbook.
+   */
   public static void insideCookBook() {
     CookBook cookBook = new CookBook();
     cookBook.addRecipe("Kjøttkaker", RecipeType.DINNER, "Stek kjøttkaker", new ArrayList<>());
@@ -85,7 +98,8 @@ public class UserInterface {
     while (true) {
       int choice =
           InputUtil.getInt(
-              "\n1. Print out recipes\n2. View recipe\n3. Add recipe\n4. Remove recipe\n5. Close cookbook\nChoice: ");
+              "\n1. Print out recipes" + "\n2. View recipe" + "\n3. Add recipe"
+                  + "\n4. Remove recipe" + "\n5. Close cookbook" + "\nChoice: ");
       switch (choice) {
         case 1:
           System.out.print(cookBook.header());
