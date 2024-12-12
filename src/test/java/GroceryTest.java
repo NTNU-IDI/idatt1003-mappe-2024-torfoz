@@ -25,7 +25,7 @@ public class GroceryTest {
   public void testToString() {
     LocalDate expiryDate = LocalDate.of(2023, 12, 31);
     Grocery grocery = new Grocery(1, "Sukker", 500.0, Unit.GRAM, expiryDate, 20.0);
-    String expected = "1 | Sukker | 500.0 gram | 2023-12-31 | 20.0 kr";
+    String expected = "1 | Sukker | 500.0 gram | \033[31m31-12-2023\033[0m | 20.0 kr";
     assertEquals(expected, grocery.toString());
   }
 }
