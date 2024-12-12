@@ -1,51 +1,88 @@
 @startuml
 
-package edu.ntnu.iir.bidata {
-  class Main {
-    +main(String[] args)
-    +mainMenu(Fridge fridge)
-    +insideFridge(Fridge fridge)
-  }
-
-  class Fridge {
-    -List<Ingredient> ingredients
-    +addIngredient(String name, double amount, Unit unit, LocalDate expiryDate, double price)
-    +addIngredientFromInput()
-    +getIngredientsInFridge(): List<Ingredient>
-    +getIngredientsInFridgeByName(String name): List<Ingredient>
-    +removeIngredientFromFridge(Fridge fridge)
-    +toString(): String
-  }
-
-  class Ingredient {
-    -int quantity
-    -String name
-    -double amount
-    -Unit unit
-    -LocalDate expiryDate
-    -double price
-    +Ingredient(int quantity, String name, double amount, Unit unit, LocalDate expiryDate, double price)
-    +getQuantity(): int
-    +setQuantity(int quantity)
-    +getName(): String
-    +getAmount(): double
-    +getUnit(): Unit
-    +getExpiryDate(): LocalDate
-    +getPrice(): double
-    +toString(): String
-  }
-
-  enum Unit {
-    GRAM
-    LITER
-    PIECE
-    +fromString(String unitString): Unit
-    +getSymbol(): String[]
-  }
-
-  Main --> Fridge
-  Fridge --> Ingredient
-  Ingredient --> Unit
+class UserInterface {
+  +main(String[] args)
+  +mainMenu()
+  +insideFridge()
+  +insideCookBook()
 }
 
+enum RecipeType {
+  BREAKFAST
+  LUNCH
+  DINNER
+  DESSERT
+  STARTER
+}
+
+enum Unit {
+  GRAM
+  LITER
+  PIECE
+  +fromString(String unitString): Unit
+  +getSymbol(): String[]
+}
+
+class CookBook {
+  -List<Recipe> recipes
+  +addRecipe(String name, RecipeType type, String instructions, List<Ingredient> ingredients)
+  +addRecipeFromInput()
+  +removeRecipe()
+  +header(): String
+  +recipesNumbered(): String
+  +printRecipe(): String
+}
+
+class Fridge {
+  -List<Grocery> groceries
+  +addGrocery(String name, double amount, Unit unit, LocalDate expiryDate, double price)
+  +addGroceryFromInput()
+  +removeGroceryFromFridge()
+  +header(): String
+  +printGroceries(): String
+}
+
+class Grocery {
+  -String name
+  -double amount
+  -Unit unit
+  -LocalDate expiryDate
+  -double price
+  +Grocery(String name, double amount, Unit unit, LocalDate expiryDate, double price)
+}
+
+class Recipe {
+  -String name
+  -RecipeType recipeType
+  -String instructions
+  -List<Grocery> groceries
+  +Recipe(String name, RecipeType type, String instructions, List<Grocery> groceries)
+}
+
+class InputUtil {
+  -Scanner scanner
+  +getString(String prompt): String
+  +getInt(String prompt): int
+  +getDouble(String prompt): double
+  +getUnit(): Unit
+  +getDate(): LocalDate
+  +getRecipeType(): RecipeType
+  +getBoolean(String prompt): boolean
+}
+
+UserInterface --> Fridge
+UserInterface --> CookBook
+Fridge o-- Grocery
+Fridge --> Unit
+Grocery -- Unit
+Recipe -- RecipeType
+CookBook --> Recipe
+CookBook -- RecipeType
+Recipe --> InputUtil
+Fridge --> InputUtil
+CookBook --> InputUtil
+Recipe --> Grocery
+
+skinparam linetype polyline
+skinparam linetype ortho
 @enduml
