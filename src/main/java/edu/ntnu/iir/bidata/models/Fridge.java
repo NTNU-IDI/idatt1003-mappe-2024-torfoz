@@ -19,7 +19,7 @@ public class Fridge {
   private final List<Grocery> groceries = new ArrayList<>();
 
   /**
-   * Adds an ingredient to the fridge.
+   * Adds a grocery to the fridge.
    *
    * @param name       Name of the ingredient.
    * @param amount     Amount of the ingredient.
@@ -43,7 +43,7 @@ public class Fridge {
   }
 
   /**
-   * Adds an ingredient to the fridge from user input.
+   * Adds a grocery to the fridge from user input.
    */
   public void addGroceryFromInput() {
     String name = InputUtil.getString("Name of grocery: ");
@@ -55,9 +55,9 @@ public class Fridge {
   }
 
   /**
-   * Gets all ingredients in the fridge.
+   * Gets all groceries in the fridge.
    *
-   * @return List of ingredients in the fridge.
+   * @return List of groceries in the fridge.
    */
   public List<Grocery> getGroceriesInFridge() {
     groceries.sort(Comparator.comparing(Grocery::getName));
@@ -65,10 +65,10 @@ public class Fridge {
   }
 
   /**
-   * Gets all ingredients in the fridge with a specific name.
+   * Gets all groceries in the fridge with a specific name.
    *
-   * @param name Name of the ingredient.
-   * @return List of ingredients with the specified name.
+   * @param name Name of the grocery.
+   * @return List of groceries with the specified name.
    */
   public List<Grocery> getGroceriesInFridgeByName(String name) {
     return groceries.stream()
@@ -88,7 +88,9 @@ public class Fridge {
       return;
     }
     for (Grocery grocery : groceriesByName) {
-      System.out.println(grocery.toString());
+      StringBuilder sb = new StringBuilder();
+      sb.append(groceriesByName.indexOf(grocery) + 1).append(". ").append(grocery);
+      System.out.println(sb);
     }
     while (true) {
       int index = InputUtil.getInt("Index of grocery to remove: ");
@@ -103,6 +105,52 @@ public class Fridge {
         System.out.println("Ugyldig valg");
       }
     }
+  }
+
+  /**
+   * Gets the price of all groceries in the fridge.
+   *
+   * @return Price of all groceries in the fridge.
+   */
+  public double getPriceOfGroceries() {
+    return groceries.stream().mapToDouble(Grocery::getPrice).sum();
+  }
+
+  /**
+   * Gets the price of all expired groceries in the fridge.
+   *
+   * @return Price of all expired groceries in the fridge.
+   */
+  public double getPriceOfExpiredGroceries() {
+    return groceries.stream()
+        .filter(grocery -> grocery.getExpiryDate().isBefore(LocalDate.now()))
+        .mapToDouble(Grocery::getPrice)
+        .sum();
+  }
+
+  /**
+   * Gets all expired groceries in the fridge.
+   *
+   * @return List of all expired groceries in the fridge.
+   */
+  public String getExpiredGroceries() {
+    StringBuilder sb = new StringBuilder();
+    for (Grocery grocery : groceries) {
+      if (grocery.getExpiryDate().isBefore(LocalDate.now())) {
+        sb.append(grocery).append("\n");
+      }
+    }
+    return sb.toString().trim();
+  }
+
+  /**
+   * Checks if the fridge has a grocery with a specific name.
+   *
+   * @param name Name of the grocery.
+   * @return True if the fridge has a grocery with the specified name, false otherwise.
+   */
+  public boolean hasGrocery(String name) {
+    return groceries.stream().anyMatch(grocery -> grocery.getName().equals(name));
   }
 
   /**
