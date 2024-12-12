@@ -70,7 +70,7 @@ public class InputUtil {
    */
   public static Unit getUnit() {
     while (true) {
-      System.out.print("Unit (g, l, stk): ");
+      System.out.print("Unit (g, l, pcs): ");
       String unitString = scanner.nextLine();
       try {
         return Unit.fromString(unitString);
