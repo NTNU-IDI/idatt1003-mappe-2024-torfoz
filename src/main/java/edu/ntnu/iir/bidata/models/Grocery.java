@@ -23,12 +23,12 @@ public class Grocery {
   /**
    * Constructor for the Grocery class.
    *
-   * @param quantity   Quantity of the grocery.
-   * @param name       Name of the grocery.
-   * @param amount     Amount of the grocery.
-   * @param unit       Unit of the grocery.
+   * @param quantity Quantity of the grocery.
+   * @param name Name of the grocery.
+   * @param amount Amount of the grocery.
+   * @param unit Unit of the grocery.
    * @param expiryDate Expiry date of the grocery.
-   * @param price      Price of the grocery.
+   * @param price Price of the grocery.
    */
   public Grocery(
       int quantity, String name, double amount, Unit unit, LocalDate expiryDate, double price) {
@@ -43,9 +43,9 @@ public class Grocery {
   /**
    * Constructor for the Grocery class. Used when adding grocery to a recipe.
    *
-   * @param name   Name of the grocery.
+   * @param name Name of the grocery.
    * @param amount Amount of the grocery.
-   * @param unit   Unit of the grocery.
+   * @param unit Unit of the grocery.
    */
   public Grocery(String name, double amount, Unit unit) {
     this.name = name;
